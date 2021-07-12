@@ -4,7 +4,7 @@ type Configer interface {
 }
 
 type Auth struct {
-	auth_mode string `yaml:"auth_mode"`
+	auth_mode string
 	// oidc parmeters
 	oidc_verify_cert   bool
 	oidc_scope         string
@@ -54,7 +54,7 @@ type ScanPolicy struct {
 	}
 }
 type Config struct {
-	Auth
-	Email
-	System
+	Auth   `yaml:",inline"`
+	Email  `yaml:",inline"`
+	System `yaml:",inline"`
 }
