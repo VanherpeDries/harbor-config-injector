@@ -11,13 +11,14 @@ import (
 )
 
 type YamlFile struct {
-	config map[string]string `yaml:"config, omitempty"`
+	Config config.Config
 }
 
-func parseYaml(fileName string) (map[string]config.Auth, error) {
+func parseYaml(fileName string) (YamlFile, error) {
 	fmt.Println("Parsing YAML files")
 
-	yamlConfig := make(map[string]config.Auth)
+	fmt.Println(fileName)
+	var yamlConfig YamlFile
 	// Opening file from path
 	yamlfile, err := ioutil.ReadFile(fileName)
 	if err != nil {

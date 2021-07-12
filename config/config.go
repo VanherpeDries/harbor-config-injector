@@ -4,7 +4,7 @@ type Configer interface {
 }
 
 type Auth struct {
-	auth_mode string
+	Auth_mode string
 	// oidc parmeters
 	oidc_verify_cert   bool
 	oidc_scope         string
