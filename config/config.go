@@ -48,7 +48,7 @@ type System struct {
 	count_per_project string
 }
 type ScanPolicy struct {
-	scanType  string "yaml:'type'"
+	scanType  string
 	parameter struct {
 		daily_time int
 	}
