@@ -6,22 +6,28 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	config "github.com/VanherpeDries/harbor-config-injector/config"
 	"gopkg.in/yaml.v2"
 )
 
-func parseYaml(fileName string) (*Config, error) {
+type YamlFile struct {
+	config map[string]string `yaml:"config, omitempty"`
+}
+
+func parseYaml(fileName string) (map[string]config.Auth, error) {
 	fmt.Println("Parsing YAML files")
 
+	yamlConfig := make(map[string]config.Auth)
 	// Opening file from path
 	yamlfile, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		return nil, err
+		return yamlConfig, err
+
 	}
 	// Parsing YAML file
-	yamlConfig := new(Config)
 	err = yaml.Unmarshal(yamlfile, &yamlConfig)
 	if err != nil {
-		return nil, err
+		return yamlConfig, err
 	}
 
 	return yamlConfig, nil
@@ -60,7 +66,6 @@ func main() {
 	basicAuthToken := generateAuthToken(username, password)
 
 	fmt.Println("Token: ", basicAuthToken)
-	fmt.Printf("Result: %v\n", yamlConfig)
+	fmt.Printf("Result : %+v\n", yamlConfig)
 
-	fmt.Println(yamlConfig["harbor"])
 }
