@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 
 	config "github.com/VanherpeDries/harbor-config-injector/config"
+
 	"gopkg.in/yaml.v2"
 )
 
