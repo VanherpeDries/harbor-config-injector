@@ -1,9 +1,7 @@
-github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210712135148-e7ebfdaa69d3 h1:7pcCdMwaqxidTa+AOvINlRmr4SpEeIY/zBMc/b0D/xc=
-github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210712135148-e7ebfdaa69d3/go.mod h1:3v6h1y/z4ECIRx6iNCCIvHduharFdgG+7qA49vvVw8c=
-github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210712141600-ed1dfd2fe42e h1:fWQyetOyFe8XMOwNfIrzKyzZLxkCwR8dOLdyCsU1Q48=
-github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210712141600-ed1dfd2fe42e/go.mod h1:3v6h1y/z4ECIRx6iNCCIvHduharFdgG+7qA49vvVw8c=
 github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210712142637-45155bf19442 h1:1kRGnOMicNZXUhhFxwq5mIh5Joib2gCKYXMEf1iU12g=
 github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210712142637-45155bf19442/go.mod h1:3v6h1y/z4ECIRx6iNCCIvHduharFdgG+7qA49vvVw8c=
+github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210713090650-3a5ff86e7c8f h1:0V34c/0jWCN5VTbZFklGoEsbFgTyLsqxfRedE+x8Ml8=
+github.com/VanherpeDries/harbor-config-injector/config v0.0.0-20210713090650-3a5ff86e7c8f/go.mod h1:3v6h1y/z4ECIRx6iNCCIvHduharFdgG+7qA49vvVw8c=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=

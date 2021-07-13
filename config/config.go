@@ -48,9 +48,9 @@ type System struct {
 	Count_per_project            string
 }
 type ScanPolicy struct {
-	ScanType  string
+	Type      string
 	Parameter struct {
-		daily_time int
+		Daily_time int
 	}
 }
 type Config struct {
