@@ -1,10 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
+	"net/http"
 
 	config "github.com/VanherpeDries/harbor-config-injector/config"
 
@@ -13,6 +17,44 @@ import (
 
 type YamlFile struct {
 	Config config.Config
+}
+type PutTest struct {
+	Email_host string `json:"email_host"`
+	Email_from string `json:"email_from"`
+}
+
+func TestGetHttp(hostname string, user string, password string) {
+	client := &http.Client{}
+	url := hostname + "/api/v2.0/statistics"
+	req, err := http.NewRequest("GET", url, nil)
+	req.SetBasicAuth(user, password)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	fmt.Println("Response: ", string(bodyText))
+
+}
+
+func TestPutHttp(hostname string, user string, password string, config config.Config) {
+	client := &http.Client{}
+	test := PutTest{"testing123", "test"}
+	fmt.Println("test: ", test)
+	jsonReq, err := json.Marshal(test)
+	fmt.Println("json: ", bytes.NewBuffer(jsonReq))
+	url := hostname + "/api/v2.0/configurations"
+	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonReq))
+	req.SetBasicAuth(user, password)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	fmt.Println("Response : ", string(bodyText))
+
 }
 
 func parseYaml(fileName string) (YamlFile, error) {
@@ -45,11 +87,12 @@ func main() {
 	var filename string
 	var username string
 	var password string
+	var hostname string
 
 	flag.StringVar(&filename, "f", "./config.yaml", "path of the config file")
 	flag.StringVar(&username, "u", "", "username to authenticate to harbor")
 	flag.StringVar(&password, "p", "", "password to authenticate to harbor")
-	flag.StringVar(&password, "h", "", "hostname of the harbor server")
+	flag.StringVar(&hostname, "h", "", "hostname of the harbor server")
 	flag.Parse()
 
 	// Check if filename is provided
@@ -67,6 +110,8 @@ func main() {
 	// generate token from user & password
 	basicAuthToken := generateAuthToken(username, password)
 
+	TestPutHttp(hostname, username, password, yamlConfig.Config)
+	TestGetHttp(hostname, username, password)
 	fmt.Println("Token: ", basicAuthToken)
 	fmt.Printf("Result : %+v\n", yamlConfig)
 
