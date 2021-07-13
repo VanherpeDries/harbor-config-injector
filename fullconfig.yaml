@@ -8,9 +8,9 @@ config:
   ldap_search_dn: string
   storage_per_project: string
   scan_all_policy: 
-  type: string
-  parameter: 
-    daily_time: 0
+    type: string
+    parameter: 
+      daily_time: 100
   verify_remote_cert: true
   ldap_timeout: 0
   ldap_base_dn: string

@@ -42,10 +42,10 @@ type System struct {
 	Storage_per_project          string
 	Quota_per_project_enable     bool
 	Project_creation_restriction string
-	ScanPolicy
-	Read_only         bool
-	Token_expiration  int
-	Count_per_project string
+	Scan_all_policy              ScanPolicy
+	Read_only                    bool
+	Token_expiration             int
+	Count_per_project            string
 }
 type ScanPolicy struct {
 	ScanType  string

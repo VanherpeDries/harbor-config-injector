@@ -1,2 +1,3 @@
 config:
   oidc_verify_cert: true
+  auth_mode: test
