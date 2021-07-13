@@ -1,20 +1,9 @@
 package config
 
-import (
-	"net/http"
-)
-
 type Configer interface {
 }
 
 type Auther interface {
-	CreateAuth()
-}
-
-func (x Auth) CreateAuth(hostname string, user string, password string) {
-	client := &http.Client{}
-	url := hostname + "/"
-	req, err := http.NewRequest("GET")
 }
 
 type Auth struct {

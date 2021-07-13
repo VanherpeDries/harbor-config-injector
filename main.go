@@ -40,9 +40,7 @@ func TestGetHttp(hostname string, user string, password string) {
 
 func TestPutHttp(hostname string, user string, password string, config config.Config) {
 	client := &http.Client{}
-	test := PutTest{"testing123", "test"}
-	fmt.Println("test: ", test)
-	jsonReq, err := json.Marshal(test)
+	jsonReq, err := json.Marshal(config)
 	fmt.Println("json: ", bytes.NewBuffer(jsonReq))
 	url := hostname + "/api/v2.0/configurations"
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonReq))
