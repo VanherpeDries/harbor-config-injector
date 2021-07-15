@@ -28,12 +28,7 @@ type Cve_allowlist struct {
 	Creation_time string              `json:"creation_time"`
 }
 
-type Projecter interface {
-	CheckProject()
-	PutProject()
-}
-
-func (x Project) CheckProject(string host, string user, string password) string {
+func CheckProject(Project x, string host, string user, string password) string {
 	client := &http.client{}
 
 	url := hostname + projectApiPath + "?project_name=" + x.Project_name
@@ -46,7 +41,7 @@ func (x Project) CheckProject(string host, string user, string password) string 
 	bodyText, err := oiutil.ReadAll(resp.body)
 	return bodyText
 }
-func (x Project) PutProject(string host, string user, string password) string {
+func PutProject(Project x, string host, string user, string password) string {
 	client := &http.client{}
 
 	jsonReq, err := json.Marshal(x)

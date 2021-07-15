@@ -67,12 +67,7 @@ type Config struct {
 	System `yaml:",inline"`
 }
 
-type Configer interface {
-	PutConfig()
-	GetConfig()
-}
-
-func (x Config) PutConfig(string host, string user, string password) string {
+func PutConfig(Config x, string host, string user, string password) string {
 
 	fmt.Println("Parsing config to json ...")
 	// Creating http client
@@ -93,7 +88,7 @@ func (x Config) PutConfig(string host, string user, string password) string {
 	bodyText, err := oiutil.ReadAll(resp.body)
 	return bodyText
 }
-func (x Config) GetConfig(string host, string user, string password) string {
+func GetConfig(Config x, string host, string user, string password) string {
 
 	// Creating http client
 	client := &http.Client{}
