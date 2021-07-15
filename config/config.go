@@ -1,10 +1,14 @@
 package config
 
-type Configer interface {
-}
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
 
-type Auther interface {
-}
+const configApiPath string = "/api/v2.0/configurations"
 
 type Auth struct {
 	Auth_mode string `json:"auth_mode"`
@@ -61,4 +65,48 @@ type Config struct {
 	Auth   `yaml:",inline"`
 	Email  `yaml:",inline"`
 	System `yaml:",inline"`
+}
+
+type Configer interface {
+	PutConfig()
+	GetConfig()
+}
+
+func (x Config) PutConfig(string host, string user, string password) string {
+
+	fmt.Println("Parsing config to json ...")
+	// Creating http client
+	client := &http.Client{}
+	// config => json
+	jsonReq, err := json.Marshal(x)
+	fmt.Println("json object: ", bytes.NewBuffer(jsonReq))
+	// setting Hostname
+	url := hostname + configApiPath
+
+	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonReq))
+	req.SetBasicAuth(user, password)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bodyText, err := oiutil.ReadAll(resp.body)
+	return bodyText
+}
+func (x Config) GetConfig(string host, string user, string password) string {
+
+	// Creating http client
+	client := &http.Client{}
+	// setting Hostname
+	url := hostname + configApiPath
+
+	req, err := http.NewRequest("Get", url, nil)
+	req.SetBasicAuth(user, password)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bodyText, err := oiutil.ReadAll(resp.body)
+	return bodyText
 }
