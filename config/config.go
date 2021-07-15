@@ -76,7 +76,7 @@ func PutConfig(Config x, string host, string user, string password) string {
 	jsonReq, err := json.Marshal(x)
 	fmt.Println("json object: ", bytes.NewBuffer(jsonReq))
 	// setting Hostname
-	url := hostname + configApiPath
+	url := host + configApiPath
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonReq))
 	req.SetBasicAuth(user, password)
@@ -93,7 +93,7 @@ func GetConfig(Config x, string host, string user, string password) string {
 	// Creating http client
 	client := &http.Client{}
 	// setting Hostname
-	url := hostname + configApiPath
+	url := host + configApiPath
 
 	req, err := http.NewRequest("Get", url, nil)
 	req.SetBasicAuth(user, password)
