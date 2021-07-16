@@ -58,6 +58,6 @@ func PutProject(x Project, host string, user string, password string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println('response: ', resp.Status, string(resp.StatusCode)
 	return string(resp.Status)
 }
