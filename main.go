@@ -106,11 +106,8 @@ func main() {
 	}
 
 	// generate token from user & password
-	basicAuthToken := generateAuthToken(username, password)
 
-	TestPutHttp(hostname, username, password, yamlConfig.Config)
-	TestGetHttp(hostname, username, password)
-	fmt.Println("Token: ", basicAuthToken)
+	fmt.Println("Token: ", config.GetConfig(yamlConfig.Config, hostname, username, password))
 	fmt.Printf("Result : %+v\n", yamlConfig)
 
 }
