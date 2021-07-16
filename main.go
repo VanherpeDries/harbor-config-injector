@@ -107,7 +107,7 @@ func main() {
 
 	// generate token from user & password
 
-	fmt.Println("Token: ", config.GetConfig(yamlConfig.Config, hostname, username, password))
+	fmt.Println("Get config output: ", config.GetConfig(yamlConfig.Config, hostname, username, password))
 	fmt.Printf("Result : %+v\n", yamlConfig)
 
 }

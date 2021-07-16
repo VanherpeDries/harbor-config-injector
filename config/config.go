@@ -96,7 +96,10 @@ func GetConfig(x Config, host string, user string, password string) string {
 	// setting Hostname
 	url := host + configApiPath
 
+	fmt.Println("url: " + url)
 	req, err := http.NewRequest("GET", url, nil)
+	fmt.Println("req: " + string(req.Method))
+
 	req.SetBasicAuth(user, password)
 	resp, err := client.Do(req)
 	if err != nil {
