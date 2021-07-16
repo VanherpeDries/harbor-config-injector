@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"io/ioutil"
 )
 
 const configApiPath string = "/api/v2.0/configurations"
@@ -67,7 +68,7 @@ type Config struct {
 	System `yaml:",inline"`
 }
 
-func PutConfig(Config x, string host, string user, string password) string {
+func PutConfig(x Config, host string, user string, password string) string {
 
 	fmt.Println("Parsing config to json ...")
 	// Creating http client
@@ -85,11 +86,11 @@ func PutConfig(Config x, string host, string user, string password) string {
 		log.Fatal(err)
 	}
 
-	bodyText, err := oiutil.ReadAll(resp.body)
-	return bodyText
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	return string(bodyText)
 }
-func GetConfig(Config x, string host, string user, string password) string {
 
+func GetConfig(x Config, host string, user string, password string) string {
 	// Creating http client
 	client := &http.Client{}
 	// setting Hostname
@@ -102,6 +103,6 @@ func GetConfig(Config x, string host, string user, string password) string {
 		log.Fatal(err)
 	}
 
-	bodyText, err := oiutil.ReadAll(resp.body)
-	return bodyText
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	return string(bodyText)
 }
