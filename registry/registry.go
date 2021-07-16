@@ -5,13 +5,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"io/ioutil"
 )
 
 const registryApiPath string = "/api/v2.0/registries"
 
 type Registry struct {
 	Status        string     `json:"status"`
-	Credential    Credentail `json:"credential"`
+	Credential    Credential `json:"credential"`
 	Update_time   string     `json:"update_time"`
 	Name          string     `json:"name"`
 	Url           string     `json:"url"`
@@ -33,12 +34,12 @@ type Registryer interface {
 	PingRegistry()
 }
 
-func (x Registry) PostRegistry(string host, string user, string password) string {
+func  PostRegistry(x Registry, host string, user string, password string) string {
 
-	client := &http.client{}
+	client := &http.Client{}
 	jsonReq, err := json.Marshal(x)
 
-	url := hostname + registryApiPath
+	url := host + registryApiPath
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonReq))
 	req.SetBasicAuth(user, password)
 
@@ -47,21 +48,22 @@ func (x Registry) PostRegistry(string host, string user, string password) string
 		log.Fatal(err)
 	}
 
-	bodyText, err := oiutil.ReadAll(resp.body)
-	return bodyText
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	return string(bodyText)
 }
-func (x Regsitry) PingRegistry(string host, string user, string password) string {
+func  PingRegistry(x Registry, host string, user string, password string) string {
 	client := &http.Client{}
-	url := hostname + registryApiPath + "/ping"
+	jsonReq, err := json.Marshal(x)
+	url := host + registryApiPath + "/ping"
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonReq))
 
-	req.SetBasicAuht(user, password)
+	req.SetBasicAuth(user, password)
 
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyText, err := oiutil.ReadAll(resp.body)
+	bodyText, err := ioutil.ReadAll(resp.Body)
 
-	return bodyText
+	return string(bodyText)
 }
