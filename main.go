@@ -11,6 +11,8 @@ import (
 	"net/http"
 
 	config "github.com/VanherpeDries/harbor-config-injector/config"
+//	registry "github.com/VanherpeDries/harbor-config-injector/registry"
+	project "github.com/VanherpeDries/harbor-config-injector/projects"
 
 	"gopkg.in/yaml.v2"
 )
@@ -105,8 +107,11 @@ func main() {
 		return
 	}
 
+	// TESTING CODE SHOULD BE REMOVED
+	var p = project.Project{Project_name: "test"} 
 	// generate token from user & password
 
+	fmt.Println("Check Project output: ", project.CheckProject(p, hostname, username, password))
 	fmt.Println("Get config output: ", config.GetConfig(yamlConfig.Config, hostname, username, password))
 	fmt.Printf("Result : %+v\n", yamlConfig)
 

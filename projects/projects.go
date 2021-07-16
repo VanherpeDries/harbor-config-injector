@@ -58,7 +58,7 @@ func PutProject(x Project, host string, user string, password string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyText, err := ioutil.ReadAll(resp.Body)
+	bodyText, err := ioutil.ReadAll(resp.Status)
 
 	return string(bodyText)
 }
