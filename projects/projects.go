@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"io/ioutil"
 )
 
 const projectApiPath string = "/api/v2.0/projects"
@@ -28,27 +29,27 @@ type Cve_allowlist struct {
 	Creation_time string              `json:"creation_time"`
 }
 
-func CheckProject(Project x, string host, string user, string password) string {
-	client := &http.client{}
+func CheckProject(x Project, host string, user string, password string) string {
+	client := &http.Client{}
 
-	url := hostname + projectApiPath + "?project_name=" + x.Project_name
+	url := host + projectApiPath + "?project_name=" + x.Project_name
 	req, err := http.NewRequest("HEAD", url, nil)
 	req.SetBasicAuth(user, password)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyText, err := oiutil.ReadAll(resp.body)
-	return bodyText
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	return string(bodyText)
 }
-func PutProject(Project x, string host, string user, string password) string {
-	client := &http.client{}
+func PutProject(x Project, host string, user string, password string) string {
+	client := &http.Client{}
 
 	jsonReq, err := json.Marshal(x)
 
 	fmt.Println("json object: ", bytes.NewBuffer(jsonReq))
 
-	url := hostname + projectApiPath
+	url := host + projectApiPath
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonReq))
 
 	req.SetBasicAuth(user, password)
@@ -57,7 +58,7 @@ func PutProject(Project x, string host, string user, string password) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyText, err := oiutil.ReadAll(resp.body)
+	bodyText, err := ioutil.ReadAll(resp.Body)
 
-	return bodyText
+	return string(bodyText)
 }
