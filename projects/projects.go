@@ -39,7 +39,7 @@ func CheckProject(x Project, host string, user string, password string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	status, err := ioutil.ReadAll(resp.StatusCode)
+	status, err := resp.StatusCode
 	return string(status)
 }
 func PutProject(x Project, host string, user string, password string) (string, int) {
