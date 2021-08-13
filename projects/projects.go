@@ -1,12 +1,12 @@
-package main 
+package main
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"io/ioutil"
 )
 
 const projectApiPath string = "/api/v2.0/projects"
@@ -15,7 +15,7 @@ type Project struct {
 	Project_name  string            `json:"project_name"`
 	Cve_allowlist Cve_allowlist     `json:"cve_allowlist"`
 	Count_limit   int               `json:"count_limit"`
-	Registry_id   *int               `json:"registry_id, omitempty"`
+	Registry_id   *int              `json:"registry_id, omitempty"`
 	Storage_limit int               `json:"storage_limit"`
 	Metadata      map[string]string `json:"metadata"`
 	Public        bool              `json:"Public"`
@@ -39,10 +39,10 @@ func CheckProject(x Project, host string, user string, password string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	return string(bodyText)
+	status, err := ioutil.ReadAll(resp.StatusCode)
+	return string(status)
 }
-func PutProject(x Project, host string, user string, password string) (string, int){
+func PutProject(x Project, host string, user string, password string) (string, int) {
 	client := &http.Client{}
 
 	jsonReq, err := json.Marshal(x)
@@ -52,8 +52,7 @@ func PutProject(x Project, host string, user string, password string) (string, i
 	url := host + projectApiPath
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonReq))
 
-        req.Header.Set("Content-Type", "application/json")
-
+	req.Header.Set("Content-Type", "application/json")
 
 	req.SetBasicAuth(user, password)
 	resp, err := client.Do(req)
@@ -64,4 +63,3 @@ func PutProject(x Project, host string, user string, password string) (string, i
 	bodyText, _ := ioutil.ReadAll(resp.Body)
 	return string(bodyText), resp.StatusCode
 }
-
