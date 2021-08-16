@@ -29,7 +29,7 @@ type Cve_allowlist struct {
 	Creation_time string              `json:"creation_time"`
 }
 
-func CheckProject(x Project, host string, user string, password string) string {
+func CheckProject(x Project, host string, user string, password string) int {
 	client := &http.Client{}
 
 	url := host + projectApiPath + "?project_name=" + x.Project_name
@@ -40,7 +40,7 @@ func CheckProject(x Project, host string, user string, password string) string {
 		log.Fatal(err)
 	}
 	status := resp.StatusCode
-	return string(status)
+	return status
 }
 func PutProject(x Project, host string, user string, password string) (string, int) {
 	client := &http.Client{}
