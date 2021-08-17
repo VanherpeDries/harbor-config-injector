@@ -37,3 +37,7 @@ config:
   email_port: 0
   email_host: string
   email_from: string
+projects:
+  - project_name: testing
+    cve_allowlist: []
+    public: true

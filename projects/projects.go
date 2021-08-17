@@ -11,6 +11,9 @@ import (
 
 const projectApiPath string = "/api/v2.0/projects"
 
+type Projects struct { 
+	[]Project
+}
 type Project struct {
 	Project_name  string            `json:"project_name"`
 	Cve_allowlist Cve_allowlist     `json:"cve_allowlist"`
