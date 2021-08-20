@@ -3,9 +3,9 @@ package registry
 import (
 	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"io/ioutil"
 )
 
 const registryApiPath string = "/api/v2.0/registries"
@@ -29,12 +29,7 @@ type Credential struct {
 	Type          string `json:"type"`
 }
 
-type Registryer interface {
-	PostRegistry()
-	PingRegistry()
-}
-
-func  PostRegistry(x Registry, host string, user string, password string) string {
+func PostRegistry(x Registry, host string, user string, password string) string {
 
 	client := &http.Client{}
 	jsonReq, err := json.Marshal(x)
@@ -51,7 +46,7 @@ func  PostRegistry(x Registry, host string, user string, password string) string
 	bodyText, err := ioutil.ReadAll(resp.Body)
 	return string(bodyText)
 }
-func  PingRegistry(x Registry, host string, user string, password string) string {
+func PingRegistry(x Registry, host string, user string, password string) string {
 	client := &http.Client{}
 	jsonReq, err := json.Marshal(x)
 	url := host + registryApiPath + "/ping"

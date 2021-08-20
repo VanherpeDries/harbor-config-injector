@@ -1,60 +1,24 @@
 package main
 
 import (
-	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
-	"net/http"
 
 	config "github.com/VanherpeDries/harbor-config-injector/config"
-//	registry "github.com/VanherpeDries/harbor-config-injector/registry"
 	project "github.com/VanherpeDries/harbor-config-injector/projects"
 
 	"gopkg.in/yaml.v2"
 )
 
 type YamlFile struct {
-	Config config.Config
+	Config   config.Config
+	Projects []project.Project
 }
 type PutTest struct {
 	Email_host string `json:"email_host"`
 	Email_from string `json:"email_from"`
-}
-
-func TestGetHttp(hostname string, user string, password string) {
-	client := &http.Client{}
-	url := hostname + "/api/v2.0/statistics"
-	req, err := http.NewRequest("GET", url, nil)
-	req.SetBasicAuth(user, password)
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	fmt.Println("Response: ", string(bodyText))
-
-}
-
-func TestPutHttp(hostname string, user string, password string, config config.Config) {
-	client := &http.Client{}
-	jsonReq, err := json.Marshal(config)
-	fmt.Println("json: ", bytes.NewBuffer(jsonReq))
-	url := hostname + "/api/v2.0/configurations"
-	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonReq))
-	req.SetBasicAuth(user, password)
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	fmt.Println("Response : ", string(bodyText))
-
 }
 
 func parseYaml(fileName string) (YamlFile, error) {
@@ -80,6 +44,23 @@ func parseYaml(fileName string) (YamlFile, error) {
 func generateAuthToken(username string, password string) string {
 	token := base64.StdEncoding.EncodeToString([]byte(username + ":" + password))
 	return token
+}
+func projectLoop(projects []project.Project, host string, user string, password string) (int, int, int) {
+	countChanged, countExists, countError := 0, 0, 0
+
+	for p := range projects {
+		txt, status := project.PutProject(projects[p], host, user, password)
+		fmt.Printf("\n %+v\n", txt)
+		if status == 200 {
+			countChanged++
+		} else if status == 409 {
+			countExists++
+		} else {
+			countError++
+		}
+	}
+	return countChanged, countExists, countError
+
 }
 
 func main() {
@@ -107,12 +88,10 @@ func main() {
 		return
 	}
 
-	// TESTING CODE SHOULD BE REMOVED
-	var p = project.Project{Project_name: "test"} 
-	// generate token from user & password
+	fmt.Printf("Get config output: %+v\n", config.PutConfig(yamlConfig.Config, hostname, username, password))
 
-	fmt.Println("Check Project output: ", project.CheckProject(p, hostname, username, password))
-	fmt.Println("Get config output: ", config.GetConfig(yamlConfig.Config, hostname, username, password))
+	changed, exists, projecterr := projectLoop(yamlConfig.Projects, hostname, username, password)
+	fmt.Printf("\n Inject project: \n Changed: %+v \n Exists: %+v \n Error: %+v \n", changed, exists, projecterr)
 	fmt.Printf("Result : %+v\n", yamlConfig)
 
 }
